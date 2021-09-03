@@ -33,7 +33,9 @@ function startAdapter(options) {
                 if (!hassObjects[id].common.write) {
                     adapter.log.warn('Object ' + id + ' is not writable!');
                 } else {
-                    const serviceData = {};
+                    const serviceData = {
+                        entity_id: hassObjects[id].native.entity_id
+                    };
                     const fields = hassObjects[id].native.fields;
 
                     for (const field in fields) {
@@ -41,9 +43,7 @@ function startAdapter(options) {
                             continue;
                         }
 
-                        if (field === 'entity_id') {
-                            serviceData.entity_id = hassObjects[id].native.entity_id
-                        } else {
+                        if (field !== 'entity_id') {
                             serviceData[field] = state.val;
                         }
                     }
